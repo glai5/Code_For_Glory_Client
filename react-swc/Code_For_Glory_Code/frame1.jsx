@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="css/frame1.css">
-    </head>
-    <body>
+import './frame1.css'
+import cfglogo from "images/cfglogo_transparent"
+import home_button from "images/home_button.png"
 
+function App() {
+  
+    return (
+    <>
         <nav class="navbar">
             <div class="container-fluid">
               <a href="index">
-                  <img class="ps-2 pe-4" height="60" src="images/cfglogo_transparent.png" alt="Code For Good"/>
+                  <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
               </a>
               <a href="./frame1.html" class="home-button">
-                  <img src="images/home_button.png" alt="Button Image">
+                  <img src={home_button} alt="Button Image"/>
               </a>
             </div>
         </nav>
@@ -22,5 +23,9 @@
         <div class="input_file"> 
             <input type="file"/>
         </div>
-    </body>
-</html>
+    </>
+    )
+  }
+  
+export default App
+  
