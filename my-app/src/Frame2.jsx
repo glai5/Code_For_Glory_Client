@@ -1,8 +1,8 @@
-import './frame2.css'
-import cfglogo from "images/cfglogo_transparent"
-import home_button from "images/home_button.png"
+import './Frame2.css'
+import cfglogo from "./images/cfglogo_transparent.png"
+import home_button from "./images/home_button.png"
 
-function App() {
+function Frame2() {
   
     return (
     <>
@@ -27,5 +27,5 @@ function App() {
     )
   }
   
-export default App
+export default Frame2
   
