@@ -22,4 +22,21 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
+/*import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Frame1 from "/my-app/src/Frame1.jsx";
+import Frame2 from "/my-app/src/Frame2.jsx";
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/my-app/src/Frame1.jsx" element={<Frame1 />} />
+        <Route path="/my-app/src/Frame2.jsx" element={<Frame2 />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App; */

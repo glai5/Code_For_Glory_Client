@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Frame2 />
+    <Frame1 />
   </React.StrictMode>
 );
 

@@ -36,6 +36,12 @@ body {
     justify-content: center;
 }
 
+.upload {
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+}
+
 .input_file input[type="file"] {
     font-size: 20px;         
     cursor: pointer;

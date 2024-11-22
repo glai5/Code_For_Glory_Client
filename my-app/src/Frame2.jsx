@@ -28,4 +28,28 @@ function Frame2() {
   }
   
 export default Frame2
+
+// function Frame2({ csvData }) {
+//     const [names, setNames] = useState([]);
+//     const [filteredNames, setFilteredNames] = useState([]);
+//     const [query, setQuery] = useState("");
   
+//     // Parse CSV data and extract names
+//     useEffect(() => {
+//       if (csvData) {
+//         const rows = csvData.split("\n");
+//         const parsedNames = rows
+//           .map((row) => row.split(",")[0]?.trim())
+//           .filter((name) => name);
+//         setNames(parsedNames);
+//         setFilteredNames(parsedNames);
+//       }
+//     }, [csvData]);
+  
+//     const handleSearch = (event) => {
+//       const value = event.target.value.toLowerCase();
+//       setQuery(value);
+//       setFilteredNames(
+//         names.filter((name) => name.toLowerCase().includes(value))
+//       );
+//     };
