@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState } from 'react';
 import Frame1 from './Frame1.jsx';
 import Frame2 from './Frame2.jsx';
