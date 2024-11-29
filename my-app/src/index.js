@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './Frame1.css';
-import Frame1 from './Frame1.jsx';
-import Frame2 from './Frame2.jsx';
+import App from './App.js'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Frame1 />
+    <App />
   </React.StrictMode>
 );
 

@@ -11,7 +11,7 @@ function Frame2() {
               <a href="index">
                   <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
               </a>
-              <a href="./frame1.html" class="home-button">
+              <a href="./Frame1.jsx" class="home-button">
                   <img src={home_button} alt="Button Image"/>
               </a>
             </div>

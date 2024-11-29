@@ -3,13 +3,16 @@ import "./Frame1.css";
 import cfglogo from "./images/cfglogo_transparent.png";
 import home_button from "./images/home_button.png";
 import axios from "axios";
-/*import { useNavigate } from "react-router-dom"; */
 
-function Frame1() {
+function Frame1({onFileUpload}) {
   const [file, setFile] = useState(null); // State to store the selected file
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]); // Capture the file selected by the user
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    if (files.length > 0) {
+      console.log("File selected:", files[0].name);
+      setFile(files[0]); // Update the state with the selected file
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -18,6 +21,11 @@ function Frame1() {
     if (!file) {
       alert("Please select a file first!");
       return;
+    }
+
+    // Notify the parent that a file has been uploaded
+    if (onFileUpload) {
+      onFileUpload(); // Call the onFileUpload callback from the parent
     }
 
     const formData = new FormData();
@@ -36,18 +44,7 @@ function Frame1() {
       alert("File upload failed. Please try again.");
     }
   };
-  /*const Frame1 = () => {
-    const navigate = useNavigate();
-    const [file, setFile] = useState(null);
-  
-    const handleFileUpload = (event) => {
-      const uploadedFile = event.target.files[0];
-      if (uploadedFile) {
-        setFile(uploadedFile);
-        // Redirect to Frame2 after upload
-        navigate("my-app/src/Frame2.jsx");
-      }
-    }; */
+
   return (
     <>
       <nav className="navbar">
@@ -55,7 +52,7 @@ function Frame1() {
           <a href="index">
             <img className="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good" />
           </a>
-          <a href="./frame1.html" className="home-button">
+          <a href="./Frame1.jsx" className="home-button">
             <img src={home_button} alt="Button Image" />
           </a>
         </div>
@@ -74,9 +71,5 @@ function Frame1() {
     </>
   );
 }
-
-
-
-
 
 export default Frame1;

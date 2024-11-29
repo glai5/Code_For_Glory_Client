@@ -1,42 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Frame1 from './Frame1.jsx';
+import Frame2 from './Frame2.jsx';
 
 function App() {
+  const [currentFrame, setCurrentFrame] = useState(1);
+
+  const handleFileUpload = () => {
+    // Switch to Frame2 when a file is uploaded
+    setCurrentFrame(2);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {currentFrame === 1 ? (
+        <Frame1 onFileUpload={handleFileUpload} />
+      ) : (
+        <Frame2 />
+      )}
     </div>
   );
 }
 
-export default App; 
-/*import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Frame1 from "/my-app/src/Frame1.jsx";
-import Frame2 from "/my-app/src/Frame2.jsx";
-
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/my-app/src/Frame1.jsx" element={<Frame1 />} />
-        <Route path="/my-app/src/Frame2.jsx" element={<Frame2 />} />
-      </Routes>
-    </Router>
-  );
-};
-
-export default App; */
+export default App;
