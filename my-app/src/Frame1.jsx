@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Frame1.css";
+import "./Frame1-2.css";
 import cfglogo from "./images/cfglogo_transparent.png";
 import home_button from "./images/home_button.png";
 import axios from "axios";
@@ -46,7 +46,7 @@ function Frame1({onFileUpload}) {
   };
 
   return (
-    <>
+    <div>
       <nav className="navbar">
         <div className="container-fluid">
           <a href="index">
@@ -65,10 +65,10 @@ function Frame1({onFileUpload}) {
           <input type="file" onChange={handleFileChange} />
         </div>
         <div className="upload">
-        <button type="submit">Upload</button>
+          <button type="submit">Upload</button>
         </div>
       </form>
-    </>
+    </div>
   );
 }
 

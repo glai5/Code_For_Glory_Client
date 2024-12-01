@@ -1,12 +1,28 @@
 const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = 5000;
 
 // Enable CORS for React frontend
 app.use(cors());
+
+// Serve static files from the 'uploads' folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// Function to list all files in the 'uploads' folder
+app.get("/files", (req, res) => {
+  const uploadFolder = path.join(__dirname, "uploads");
+  fs.readdir(uploadFolder, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to read files" });
+    }
+    res.json(files); // Send the list of filenames
+  });
+});
 
 // Configure Multer for file uploads
 const upload = multer({
@@ -21,16 +37,8 @@ const upload = multer({
 });
 
 // Ensure "uploads" folder exists
-const fs = require("fs");
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
-}
-
-// Function to count the files in the uploads folder
-function countFilesInUploads() {
-  return fs.readdirSync("uploads").filter(function (file) {
-    return fs.lstatSync(path.join("uploads", file)).isFile();
-  }).length;
 }
 
 // File upload endpoint
@@ -40,10 +48,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
   }
   res.json({ filename: req.file.filename }); // Respond with the saved file name
 });
-
-// Count the files after upload
-let fileCount = countFilesInUploads();
-console.log("Number of files in uploads:", fileCount);
 
 // Start server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
