@@ -26,7 +26,7 @@ function Frame5({ selectedFile }) {
         </nav>
 
         <div class="text">Thanks for your hard work!</div>
-        <div class="subtext">After downloading, please click the homepage button or icon to delete the file and ensure security!</div>
+        <div class="subtext">After downloading, please click the homepage button or icon to delete the file and maintain security!</div>
 
         <a href={`http://localhost:5000/uploads/${fileName}`} download>
             <button>
