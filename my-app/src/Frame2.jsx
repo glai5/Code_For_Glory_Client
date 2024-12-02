@@ -94,20 +94,32 @@ function Frame2({ onGoToFrame3 }) {
         const rowData = values[selectedIndex];
 
         if (rowData) {
-            onGoToFrame3(selectedIndex, tableRows, nameColumn, rowData);
+            onGoToFrame3(
+                selectedIndex, 
+                tableRows, 
+                nameColumn, 
+                rowData, 
+                values, 
+                selectedFile
+            );
         } else {
             alert("Please select a valid name.");
         }
+    };
+
+    const deleteFile = () => {
+        // Make a fetch request to delete the file on the server
+        fetch(`http://localhost:5000/delete-file/${selectedFile}`, {
+          method: 'DELETE',
+        })
     };
 
     return (
     <div>
         <nav class="navbar">
             <div class="container-fluid">
-              <a href="index">
-                  <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
-              </a>
-              <a href="./Frame1.jsx" class="home-button">
+              <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
+              <a href="index" class="home-button" onClick={deleteFile}>
                   <img src={home_button} alt="Button Image"/>
               </a>
             </div>
@@ -118,7 +130,7 @@ function Frame2({ onGoToFrame3 }) {
         </div>
         <div class="input_file"> 
             <select onChange={(e) => setSelectedName(e.target.value)} value={selectedName}>
-                <option>Select a Name</option>
+                <option>Select a Name (Warning: Duplicate names are NOT deleted)</option>
                 {nameColumn.map((name, index) => (
                         <option key={index} value={name}>
                             {name}

@@ -49,10 +49,8 @@ function Frame1({onFileUpload}) {
     <div>
       <nav className="navbar">
         <div className="container-fluid">
-          <a href="index">
-            <img className="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good" />
-          </a>
-          <a href="./Frame1.jsx" className="home-button">
+          <img className="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good" />
+          <a href="index" className="home-button">
             <img src={home_button} alt="Button Image" />
           </a>
         </div>

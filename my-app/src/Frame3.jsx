@@ -1,14 +1,16 @@
-import "./Frame3.css";
+import "./Frame3-4.css";
 import cfglogo from "./images/cfglogo_transparent.png";
 import home_button from "./images/home_button.png";
 import React, { useState, useEffect } from "react";
 
-function Frame3({ selectedIndex, tableRows, nameColumn, rowData, onSave }) {
+function Frame3({ selectedIndex, tableRows, nameColumn, rowData, values, selectedFile, onSave, onGoToFrame4, goToFrame5 }) {
   
   const [score, setScore] = useState("");
   const [notes, setNotes] = useState("");
   const [updatedTableRows, setUpdatedTableRows] = useState([...tableRows]);
   const [updatedRowData, setUpdatedRowData] = useState([...rowData]);
+  const [selectedName, setSelectedName] = useState("");
+  const [fileName, setFileName] = useState(selectedFile);
 
   useEffect(() => {
     // Check for "Score" and "Notes" columns in tableRows
@@ -44,6 +46,60 @@ function Frame3({ selectedIndex, tableRows, nameColumn, rowData, onSave }) {
     onSave(newRowData, updatedTableRows); // Save updated data to parent state
   };
 
+  const handleGo = () => {
+    // Find the index of the selected name in the nameColumn array
+    const selectedIndex = nameColumn.findIndex((name) => name === selectedName);
+
+    // Get the corresponding row's data from the values array
+    const rowData = values[selectedIndex];
+
+    if (rowData) {
+        onGoToFrame4(
+          selectedIndex, 
+          tableRows, 
+          nameColumn, 
+          rowData, 
+          values, 
+          selectedFile
+        );
+    } else {
+        alert("Please select a valid name.");
+    }
+  };
+
+  const handleFinish = () => {
+    fetch("http://localhost:5000/save-csv", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            filename: fileName, // Use the dynamic file name
+            tableRows, 
+            values 
+        }),
+    })
+    .then((response) => {
+        if (response.ok) {
+            alert("File saved successfully!");
+            goToFrame5(fileName);
+        } else {
+            alert("Failed to save the file.");
+        }
+    })
+    .catch((error) => {
+        console.error("Error saving the file:", error);
+        alert("An error occurred while saving the file.");
+    });
+};
+
+  const deleteFile = () => {
+      // Make a fetch request to delete the file on the server
+      fetch(`http://localhost:5000/delete-file/${fileName}`, {
+        method: 'DELETE',
+      })
+  };
+
   if (!rowData || selectedIndex === null || !tableRows) {
     return <div>No data available.</div>;
   }
@@ -52,10 +108,8 @@ function Frame3({ selectedIndex, tableRows, nameColumn, rowData, onSave }) {
     <div>
         <nav class="navbar">
             <div class="container-fluid">
-              <a href="index">
-                  <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
-              </a>
-              <a href="./Frame1.jsx" class="home-button">
+              <img class="ps-2 pe-4" height="60" src={cfglogo} alt="Code For Good"/>
+              <a href="index" class="home-button" onClick={deleteFile}>
                   <img src={home_button} alt="Button Image"/>
               </a>
             </div>
@@ -99,6 +153,27 @@ function Frame3({ selectedIndex, tableRows, nameColumn, rowData, onSave }) {
             <button onClick={handleSave} className="save-button">
               Save
             </button>
+
+            {/* Swtiching Applicant*/}
+            <div class="switch_applicant_text"> 
+              Select Different Applicant
+            </div>
+            <div class="input_file"> 
+              <select onChange={(e) => setSelectedName(e.target.value)} value={selectedName}>
+                <option>Select a Name</option>
+                {nameColumn.map((name, index) => (
+                  <option key={index} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div class="upload">
+              <button onClick={handleGo}>Go</button>
+            </div>
+            <div class="finish">
+              <button onClick={handleFinish}>Finished</button>
+            </div>
         </div>
     </div>
   );

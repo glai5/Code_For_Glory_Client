@@ -10,6 +10,8 @@ const PORT = 5000;
 // Enable CORS for React frontend
 app.use(cors());
 
+app.use(express.json());
+
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -47,6 +49,39 @@ app.post("/upload", upload.single("file"), (req, res) => {
     return res.status(400).send("No file uploaded.");
   }
   res.json({ filename: req.file.filename }); // Respond with the saved file name
+});
+
+// Saving Updated CSV Endpoint
+app.post("/save-csv", (req, res) => {
+  const { filename, tableRows, values } = req.body;
+
+  // Create CSV content
+  const csvContent = [tableRows.join(",")]
+    .concat(values.map(row => row.join(",")))
+    .join("\n");
+
+  // Write to the file in the uploads folder
+  const filePath = `uploads/${filename}`;
+  fs.writeFile(filePath, csvContent, (err) => {
+    if (err) {
+      console.error("Error writing file:", err);
+      return res.status(500).send("Failed to save CSV file");
+    }
+    res.send("File saved successfully");
+  });
+});
+
+// Endpoint to delete a file
+app.delete("/delete-file/:filename", (req, res) => {
+  const filePath = path.join(__dirname, "uploads", req.params.filename);
+  
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error("Error deleting file:", err);
+      return res.status(500).send("Failed to delete file");
+    }
+    res.send("File deleted successfully");
+  });
 });
 
 // Start server
