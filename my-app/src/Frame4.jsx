@@ -101,6 +101,12 @@ function Frame4({ selectedIndex, tableRows, nameColumn, rowData, values, selecte
         })
     };
 
+    function extractGoogleDriveId(link) {
+        const regex = /(?:\/d\/|id=)([a-zA-Z0-9-_]+)/;
+        const match = link.match(regex);
+        return match ? match[1] : null;
+      }
+
     if (!rowData || selectedIndex === null || !tableRows) {
         return <div>No data available.</div>;
     }
@@ -121,7 +127,27 @@ function Frame4({ selectedIndex, tableRows, nameColumn, rowData, values, selecte
             {/* Display the selected name prominently */}
             <h1 id="applicant-name">{nameColumn[selectedIndex]}</h1>
 
+            <h1 id="resume">Resume:</h1>
+            <div class="resume_border">
+                {tableRows.map((columnName, index) => {
+                    if (columnName.includes("resume")) {
+                        const ID = extractGoogleDriveId(rowData[index]);
+                        return (
+                            <iframe 
+                            key={index} 
+                            src={`https://drive.google.com/file/d/${ID}/preview`} 
+                            width="800" 
+                            height="484"
+                            style={{ border: "none" }}></iframe>
+                        );
+                    } else {
+                        <p id="resume-alt">Applicant has no resume</p>
+                    }
+                })}
+            </div>
+
             {/* Table displaying the details */}
+            <h1 id="resume">Applicant Details:</h1>
             <table class="details-table">
                 <tbody>
                     {tableRows.map((columnName, index) => (

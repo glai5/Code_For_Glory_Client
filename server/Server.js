@@ -3,6 +3,7 @@ const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
+const { format } = require("fast-csv");
 
 const app = express();
 const PORT = 5000;
@@ -55,20 +56,31 @@ app.post("/upload", upload.single("file"), (req, res) => {
 app.post("/save-csv", (req, res) => {
   const { filename, tableRows, values } = req.body;
 
-  // Create CSV content
-  const csvContent = [tableRows.join(",")]
-    .concat(values.map(row => row.join(",")))
-    .join("\n");
-
-  // Write to the file in the uploads folder
   const filePath = `uploads/${filename}`;
-  fs.writeFile(filePath, csvContent, (err) => {
-    if (err) {
-      console.error("Error writing file:", err);
-      return res.status(500).send("Failed to save CSV file");
-    }
-    res.send("File saved successfully");
+  const writeStream = fs.createWriteStream(filePath);
+  
+  const csvStream = format({ headers: tableRows, quoteColumns: true }); // Automatically handles quoting
+
+  // Pipe the CSV stream into the write stream
+  csvStream.pipe(writeStream)
+    .on("finish", () => {
+      res.send("File saved successfully");
+    })
+    .on("error", (err) => {
+      console.error("Error saving file:", err);
+      res.status(500).send("Failed to save CSV file");
+    });
+
+  // Write each row of data into the CSV
+  values.forEach((row) => {
+    const rowObject = {};
+    tableRows.forEach((header, index) => {
+      rowObject[header] = row[index] || ""; // Map header to value, default to empty string
+    });
+    csvStream.write(rowObject);
   });
+
+  csvStream.end(); // Close the stream
 });
 
 // Endpoint to delete a file

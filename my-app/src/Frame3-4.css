@@ -40,6 +40,23 @@ body {
     margin-bottom: 20px;
 }
 
+#resume {
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#resume-alt {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.resume_border {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .text {
     font-size: 60px;
     margin-top: 200px; 
